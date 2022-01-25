@@ -3,11 +3,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Data.Extensions;
+    using Domain.Commands.CityCommands;
     using Domain.Dtos;
     using Domain.Interfaces.Data;
     using Domain.Model;
     using MediatR;
-    using Domain.Commands.CityCommands;
 
     public class CityCommandHandlers
     {
@@ -24,6 +24,7 @@
                 var response = new ResponseDto<City>();
                 List<SPParameter> parameters = new()
                 {
+                    new SPParameter { Name = "@CityId", Value = await GetId(cancellationToken), Type = TypeCode.Int32 },
                     new SPParameter { Name = "@Name", Value = request.Name, Type = TypeCode.String },
                     new SPParameter { Name = "@Code", Value = request.Code, Type = TypeCode.String },
                     new SPParameter { Name = "@StateId", Value = request.StateId, Type = TypeCode.Int32 }
@@ -40,6 +41,12 @@
                 }
 
                 return response;
+            }
+
+            private async Task<int> GetId(CancellationToken cancellationToken)
+            {
+                var res = await _context.Cities.ExecuteSPAsync("dbo.GetCities", cancellationToken);
+                return res.Count == 0 ? 1 : res.Count + 1;
             }
         }
         public class DeleteCityByIdCommandHandler : IRequestHandler<DeleteCityByIdCommand, ResponseDto<bool>>

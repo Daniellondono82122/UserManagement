@@ -1,10 +1,9 @@
 ﻿namespace UserManagement.Domain.Commands.UserCommands
 {
     using Domain.Dtos;
-    using Domain.Model;
     using MediatR;
 
-    public class RegisterUserCommand : IRequest<ResponseDto<User>>
+    public class RegisterUserCommand : IRequest<ResponseDto<UserResponseDto>>
     {
         public string Name { get; set; }
         public string PhoneNumber { get; set; }

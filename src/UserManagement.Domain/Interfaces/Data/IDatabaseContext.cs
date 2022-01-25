@@ -2,6 +2,7 @@
 {
     using Domain.Model;
     using Microsoft.EntityFrameworkCore;
+    using UserManagement.Domain.Dtos;
 
     public interface IDatabaseContext : IDisposable
     {
@@ -13,5 +14,6 @@
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<UserResponseDto> UserResponseDto { get; set; }
     }
 }

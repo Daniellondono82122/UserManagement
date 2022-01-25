@@ -1,9 +1,9 @@
 ﻿namespace UserManagement.Api.Controllers
 {
-    using MediatR;
-    using Microsoft.AspNetCore.Mvc;
     using Domain.Commands.CountryCommands;
     using Domain.Queries.CountryQueries;
+    using MediatR;
+    using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("[controller]")]

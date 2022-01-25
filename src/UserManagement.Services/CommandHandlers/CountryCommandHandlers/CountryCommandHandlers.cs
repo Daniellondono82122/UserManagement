@@ -3,11 +3,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Data.Extensions;
+    using Domain.Commands.CountryCommands;
     using Domain.Dtos;
     using Domain.Interfaces.Data;
     using Domain.Model;
     using MediatR;
-    using Domain.Commands.CountryCommands;
 
     public class CountryCommandHandlers
     {
@@ -24,6 +24,7 @@
                 var response = new ResponseDto<Country>();
                 List<SPParameter> parameters = new()
                 {
+                    new SPParameter { Name = "@CountryId", Value = await GetId(cancellationToken), Type = TypeCode.Int32 },
                     new SPParameter { Name = "@Name", Value = request.Name, Type = TypeCode.String },
                     new SPParameter { Name = "@Code", Value = request.Code, Type = TypeCode.String }
                 };
@@ -39,6 +40,12 @@
                 }
 
                 return response;
+            }
+
+            private async Task<int> GetId(CancellationToken cancellationToken)
+            {
+                var res = await _context.Countries.ExecuteSPAsync("dbo.GetCountries", cancellationToken);
+                return res.Count == 0 ? 1 : res.Count + 1;
             }
         }
         public class DeleteCountryByIdCommandHandler : IRequestHandler<DeleteCountryByIdCommand, ResponseDto<bool>>

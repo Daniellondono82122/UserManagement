@@ -1,8 +1,8 @@
 ﻿namespace UserManagement.Domain.Queries.StateQueries
 {
-    using MediatR;
     using Domain.Dtos;
     using Domain.Model;
+    using MediatR;
     public class GetAllStatesQuery : IRequest<ResponseDto<List<State>>>
     {
     }

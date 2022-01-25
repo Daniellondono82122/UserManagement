@@ -1,9 +1,10 @@
 ﻿namespace UserManagement.Data
 {
+    using Data.Extensions;
     using Domain.Interfaces.Data;
     using Domain.Model;
     using Microsoft.EntityFrameworkCore;
-    using Data.Extensions;
+    using UserManagement.Domain.Dtos;
 
     public class DatabaseContext : DbContext, IDatabaseContext
     {
@@ -12,6 +13,8 @@
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<State> States { get; set; } = null!;
         public DbSet<City> Cities { get; set; } = null!;
+        public DbSet<UserResponseDto> UserResponseDto { get; set; } = null!;
+
         private readonly string _connection;
 
         public DatabaseContext(DbContextOptions options) : base(options)
@@ -30,6 +33,8 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyAllConfigurations<DatabaseContext>();
+
+            modelBuilder.Entity<UserResponseDto>().HasNoKey();
             modelBuilder.Entity<User>().HasKey(user => user.UserId);
 
             modelBuilder.Entity<City>().HasKey(city => city.CityId);

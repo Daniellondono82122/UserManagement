@@ -1,8 +1,8 @@
 ﻿namespace UserManagement.Domain.Queries.CityQueries
 {
-    using MediatR;
     using Domain.Dtos;
     using Domain.Model;
+    using MediatR;
     public class GetAllCitiesQuery : IRequest<ResponseDto<List<City>>>
     {
     }

@@ -3,11 +3,11 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Data.Extensions;
+    using Domain.Commands.StateCommands;
     using Domain.Dtos;
     using Domain.Interfaces.Data;
     using Domain.Model;
     using MediatR;
-    using Domain.Commands.StateCommands;
 
     public class StateCommandHandlers
     {
@@ -22,8 +22,11 @@
             public async Task<ResponseDto<State>> Handle(RegisterStateCommand request, CancellationToken cancellationToken)
             {
                 var response = new ResponseDto<State>();
+                var userId = await GetId(cancellationToken);
+
                 List<SPParameter> parameters = new()
                 {
+                    new SPParameter { Name = "@StateId", Value = userId, Type = TypeCode.Int32 },
                     new SPParameter { Name = "@Name", Value = request.Name, Type = TypeCode.String },
                     new SPParameter { Name = "@Code", Value = request.Code, Type = TypeCode.String },
                     new SPParameter { Name = "@CountryId", Value = request.CountryId, Type = TypeCode.Int32 }
@@ -40,6 +43,12 @@
                 }
 
                 return response;
+            }
+
+            private async Task<int> GetId(CancellationToken cancellationToken)
+            {
+                var res = await _context.States.ExecuteSPAsync("dbo.GetStates", cancellationToken);
+                return res.Count == 0 ? 1 : res.Count + 1;
             }
         }
         public class DeleteStateByIdCommandHandler : IRequestHandler<DeleteStateByIdCommand, ResponseDto<bool>>

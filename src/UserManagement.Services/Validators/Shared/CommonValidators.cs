@@ -4,9 +4,9 @@ namespace UserManagement.Services.Validators.Shared
     using System;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
     using Domain.Interfaces.Data;
     using Domain.Interfaces.Services;
+    using Microsoft.EntityFrameworkCore;
 
     public class CommonValidators : ICommonValidators
     {

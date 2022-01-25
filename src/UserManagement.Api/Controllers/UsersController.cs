@@ -1,9 +1,9 @@
 ﻿namespace UserManagement.Api.Controllers
 {
+    using Domain.Commands.UserCommands;
+    using Domain.Queries.UserQueries;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
-    using Domain.Queries.UserQueries;
-    using Domain.Commands.UserCommands;
 
     [ApiController]
     [Route("[controller]")]
